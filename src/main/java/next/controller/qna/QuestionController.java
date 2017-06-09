@@ -20,19 +20,17 @@ import next.service.QnaService;
 @Controller
 @RequestMapping("/questions")
 public class QuestionController {
+
 	@Autowired
 	private QuestionDao questionDao;
+
 	@Autowired
 	private QnaService qnaService;
 	
-	private Question question;
-	
-	private List<Answer> answers;
-
 	@RequestMapping(value = "/{questionId}", method = RequestMethod.GET)
 	public String show(@PathVariable long questionId, Model model) throws Exception {
-	    question = qnaService.findById(questionId);
-	    answers = qnaService.findAllByQuestionId(questionId);
+		Question question = qnaService.findById(questionId);
+		List<Answer> answers = qnaService.findAllByQuestionId(questionId);
 	    
 		model.addAttribute("question", question);
 		model.addAttribute("answers", answers);
