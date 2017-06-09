@@ -57,6 +57,10 @@ public class Answer {
 		}
 		return user.isSameUser(this.writer);
 	}
+
+	public void delete() {
+		deleted = true;
+	}
 	
 	@Override
 	public int hashCode() {

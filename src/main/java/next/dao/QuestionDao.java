@@ -95,4 +95,9 @@ public class QuestionDao {
 		String sql = "UPDATE QUESTIONS set countOfAnswer = countOfAnswer + 1 WHERE questionId = ?";
 		jdbcTemplate.update(sql, questionId);
 	}
+
+	public void downCountOfAnswer(Long questionId) {
+		String sql = "UPDATE QUESTIONS set countOfAnswer = countOfAnswer - 1 WHERE questionId = ?";
+		jdbcTemplate.update(sql, questionId);
+	}
 }

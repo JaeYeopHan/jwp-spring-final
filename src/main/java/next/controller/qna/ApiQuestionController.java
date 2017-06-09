@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,5 +62,21 @@ public class ApiQuestionController {
 		values.put("answer", savedAnswer);
 		values.put("result", Result.ok());
 		return values;
+	}
+
+	@RequestMapping(value = "/{questionId}/answers/{answerId}", method = RequestMethod.DELETE)
+	public Result deleteAnswer(@LoginUser User loginUser, @PathVariable long answerId) throws Exception {
+		Answer answer = answerDao.findById(answerId);
+		if (!answer.isSameUser(loginUser)) {
+			return Result.fail("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
+		}
+
+		try {
+			answer.delete();
+			questionDao.downCountOfAnswer(answer.getQuestionId());
+			return Result.ok();
+		} catch (DataAccessException e) {
+			return Result.fail(e.getMessage());
+		}
 	}
 }
