@@ -2,6 +2,7 @@ package next.config;
 
 import java.util.List;
 
+import next.interceptor.BasicAuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,11 +43,20 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public PerformanceInterceptor performanceInterceptor() {
     	return new PerformanceInterceptor();
     }
+
+    @Bean
+    public BasicAuthInterceptor basicAuthInterceptor() {
+        return new BasicAuthInterceptor();
+    }
     
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-    	registry.addInterceptor(performanceInterceptor())
-    		.addPathPatterns("/**");
+    	registry
+                .addInterceptor(performanceInterceptor())
+                .addPathPatterns("/**");
+    	registry
+                .addInterceptor(basicAuthInterceptor());
+
     }
     
     @Override

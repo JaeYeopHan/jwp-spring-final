@@ -67,6 +67,10 @@ public class Answer {
 		deleted = true;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
