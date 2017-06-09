@@ -58,10 +58,11 @@ public class Answer {
 		return user.isSameUser(this.writer);
 	}
 
-	public void delete() {
-		deleted = true;
+	public boolean canDelete(Question question) {
+		String writer = question.getWriter();
+		return !writer.equals(this.writer);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -72,7 +72,7 @@ public class ApiQuestionController {
 		}
 
 		try {
-			answer.delete();
+			answerDao.deleteMark(answerId);
 			questionDao.downCountOfAnswer(answer.getQuestionId());
 			return Result.ok();
 		} catch (DataAccessException e) {

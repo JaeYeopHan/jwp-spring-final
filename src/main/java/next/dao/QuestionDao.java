@@ -44,6 +44,7 @@ public class QuestionDao {
 	
 	public List<Question> findAll() {
 		String sql = "SELECT questionId, writer, title, createdDate, countOfAnswer FROM QUESTIONS "
+				+ "WHERE deleted = false "
 				+ "order by questionId desc";
 		
 		RowMapper<Question> rm = new RowMapper<Question>() {
@@ -88,6 +89,11 @@ public class QuestionDao {
 
 	public void delete(long questionId) {
 		String sql = "DELETE FROM QUESTIONS WHERE questionId = ?";
+		jdbcTemplate.update(sql, questionId);
+	}
+
+	public void deleteMark(long questionId) {
+		String sql = "UPDATE QUESTIONS set deleted = true WHERE questionId = ?";
 		jdbcTemplate.update(sql, questionId);
 	}
 

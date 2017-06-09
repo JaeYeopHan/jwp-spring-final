@@ -59,8 +59,8 @@ public class AnswerDao {
     }
 
     public List<Answer> findAllByQuestionId(long questionId) {
-        String sql = "SELECT answerId, writer, contents, createdDate FROM ANSWERS WHERE questionId = ? "
-                + "order by answerId desc";
+        String sql = "SELECT answerId, writer, contents, createdDate FROM ANSWERS " +
+                "WHERE questionId = ? AND deleted = false order by answerId desc";
 
         RowMapper<Answer> rm = new RowMapper<Answer>() {
             @Override
@@ -74,6 +74,11 @@ public class AnswerDao {
         };
 
         return jdbcTemplate.query(sql, rm, questionId);
+    }
+
+    public void deleteMark(Long answerId) {
+        String sql = "UPDATE ANSWERS SET deleted = true WHERE answerId = ?";
+        jdbcTemplate.update(sql, answerId);
     }
 
 	public void delete(Long answerId) {

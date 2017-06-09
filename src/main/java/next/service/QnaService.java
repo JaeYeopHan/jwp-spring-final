@@ -1,6 +1,7 @@
 package next.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -34,7 +35,31 @@ public class QnaService {
 	}
 
 	public void deleteQuestion(long questionId, User user) throws CannotOperateException {
-	    // TODO 삭제 기능을 구현한다.
+		Question question = questionDao.findById(questionId);
+		if (question == null) {
+			throw new EmptyResultDataAccessException("존재하지 않는 질문입니다.", 1);
+		}
+
+		if (!question.isSameUser(user)) {
+			throw new CannotOperateException("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
+		}
+
+		List<Answer> answers = answerDao.findAllByQuestionId(questionId);
+		if (answers.isEmpty()) {
+			questionDao.deleteMark(questionId);
+			return;
+		}
+
+		boolean canDelete = answers.stream()
+				.filter(answer -> answer.canDelete(question))
+				.collect(Collectors.toList())
+				.isEmpty();
+
+		if (!canDelete) {
+			throw new CannotOperateException("다른 사용자가 추가한 댓글이 존재해 삭제할 수 없습니다.");
+		}
+
+		questionDao.deleteMark(questionId);
 	}
 
 	public void updateQuestion(long questionId, Question newQuestion, User user) throws CannotOperateException {
@@ -42,11 +67,11 @@ public class QnaService {
         if (question == null) {
         	throw new EmptyResultDataAccessException("존재하지 않는 질문입니다.", 1);
         }
-        
+
         if (!question.isSameUser(user)) {
             throw new CannotOperateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
         }
-        
+
         question.update(newQuestion);
         questionDao.update(question);
 	}
