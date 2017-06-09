@@ -68,4 +68,20 @@ public class QuestionController {
 			return "show";
 		}
 	}
+
+	@RequestMapping(value = "/{questionId}/edit", method = RequestMethod.GET)
+	public String editForm(@LoginUser User loginUser, @PathVariable long questionId, Model model) throws Exception {
+		Question question = qnaService.findById(questionId);
+		if (!question.isSameUser(loginUser)) {
+			throw new IllegalStateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
+		}
+		model.addAttribute("question", question);
+		return "/qna/form";
+	}
+
+	@RequestMapping(value = "/{questionId}", method = RequestMethod.PUT)
+	public String edit(@LoginUser User loginUser, @PathVariable long questionId, Question editQuestion) throws Exception {
+		qnaService.updateQuestion(questionId, editQuestion, loginUser);
+		return "redirect:/";
+	}
 }
