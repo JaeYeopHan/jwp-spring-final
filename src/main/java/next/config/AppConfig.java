@@ -20,7 +20,7 @@ import java.beans.PropertyVetoException;
 
 @Configuration
 @ComponentScan(
-	basePackages = { "next.controller", "next.service", "next.dao", "next.support" },
+	basePackages = { "next" },
 	excludeFilters = @ComponentScan.Filter(value = Controller.class, type = FilterType.ANNOTATION)
 )
 @PropertySource("classpath:application.properties")
