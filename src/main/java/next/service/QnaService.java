@@ -46,7 +46,7 @@ public class QnaService {
 
 		List<Answer> answers = answerDao.findAllByQuestionId(questionId);
 		if (answers.isEmpty()) {
-			questionDao.deleteMark(questionId);
+			questionDao.delete(questionId);
 			return;
 		}
 
@@ -59,7 +59,7 @@ public class QnaService {
 			throw new CannotOperateException("다른 사용자가 추가한 댓글이 존재해 삭제할 수 없습니다.");
 		}
 
-		questionDao.deleteMark(questionId);
+		questionDao.delete(questionId);
 	}
 
 	public void updateQuestion(long questionId, Question newQuestion, User user) throws CannotOperateException {

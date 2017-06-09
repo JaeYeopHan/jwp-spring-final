@@ -16,6 +16,12 @@
 		<tomcat.version>8.0.15</tomcat.version>
 	</properties>
 	<dependencies>
+		<!-- rest assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.0.3</version>
+		</dependency>
 		<!-- c3p0 -->
 		<dependency>
 			<groupId>com.mchange</groupId>

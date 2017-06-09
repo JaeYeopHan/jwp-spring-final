@@ -17,17 +17,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.google.common.collect.Lists;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QnaServiceTest {
-	@Mock
+
+    @Mock
     private QuestionDao questionDao;
+
     @Mock
     private AnswerDao answerDao;
-    
+
     private QnaService qnaService;
 
     @Before
