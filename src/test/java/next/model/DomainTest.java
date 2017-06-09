@@ -1,5 +1,6 @@
 package next.model;
 
+import next.CannotOperateException;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,11 +14,12 @@ public class DomainTest {
         User testUser = new User("jbee", "testPwd", "jy", "test@test");
         assertThat(question.isSameUser(testUser), is(true));
     }
-
+//(expected = CannotOperateException.class)
     @Test
-    public void answerCanDelete() {
+    public void answerCanDelete() throws CannotOperateException {
+        User testUser = new User("jbee", "testPwd", "jy", "test@test");
         Answer answer = new Answer("jbee", "test", 0);
         Question question = new Question("jbee", "test", "test");
-        assertThat(answer.canDelete(question), is(false));
+        answer.delete(testUser);
     }
 }

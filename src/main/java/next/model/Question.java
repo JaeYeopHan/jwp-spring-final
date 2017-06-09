@@ -1,8 +1,12 @@
 package next.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import next.CannotOperateException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Size;
 
@@ -94,7 +98,27 @@ public class Question {
 		this.contents = newQuestion.contents;
 	}
 
-	public void delete() {
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void delete(User user, List<Answer> answers) throws CannotOperateException {
+		if (deleted) {
+			throw new EmptyResultDataAccessException("존재하지 않는 질문입니다.", 1);
+		}
+
+		if (!isSameUser(user)) {
+			throw new CannotOperateException("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
+		}
+
+		if (answers.isEmpty()) {
+			return;
+		}
+
+		for (Answer answer : answers) {
+			answer.delete(user);
+		}
+
 		deleted = true;
 	}
 

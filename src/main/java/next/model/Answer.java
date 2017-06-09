@@ -1,5 +1,7 @@
 package next.model;
 
+import next.CannotOperateException;
+
 import java.util.Date;
 
 public class Answer {
@@ -58,12 +60,10 @@ public class Answer {
 		return user.isSameUser(this.writer);
 	}
 
-	public boolean canDelete(Question question) {
-		String writer = question.getWriter();
-		return !writer.equals(this.writer);
-	}
-
-	public void delete() {
+	public void delete(User user) throws CannotOperateException {
+		if (!isSameUser(user)) {
+			throw new CannotOperateException("다른 사용자가 추가한 댓글이 존재해 삭제할 수 없습니다.");
+		}
 		deleted = true;
 	}
 

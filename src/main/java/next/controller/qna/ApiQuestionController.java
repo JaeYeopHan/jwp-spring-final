@@ -67,12 +67,9 @@ public class ApiQuestionController {
 	@RequestMapping(value = "/{questionId}/answers/{answerId}", method = RequestMethod.DELETE)
 	public Result deleteAnswer(@LoginUser User loginUser, @PathVariable long answerId) throws Exception {
 		Answer answer = answerDao.findById(answerId);
-		if (!answer.isSameUser(loginUser)) {
-			return Result.fail("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
-		}
 
 		try {
-			answer.delete();
+			answer.delete(loginUser);
 			answerDao.delete(answerId);
 			questionDao.downCountOfAnswer(answer.getQuestionId());
 			return Result.ok();
