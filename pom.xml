@@ -16,6 +16,12 @@
 		<tomcat.version>8.0.15</tomcat.version>
 	</properties>
 	<dependencies>
+		<!-- c3p0 -->
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
+		</dependency>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
