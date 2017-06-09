@@ -72,6 +72,7 @@ public class ApiQuestionController {
 		}
 
 		try {
+			answer.delete();
 			answerDao.delete(answerId);
 			questionDao.downCountOfAnswer(answer.getQuestionId());
 			return Result.ok();

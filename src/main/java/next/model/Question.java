@@ -1,9 +1,12 @@
 package next.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
 import javax.validation.constraints.Size;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Question {
 	private long questionId;
 
@@ -89,6 +92,10 @@ public class Question {
 	public void update(Question newQuestion) {
 		this.title = newQuestion.title;
 		this.contents = newQuestion.contents;
+	}
+
+	public void delete() {
+		deleted = true;
 	}
 
 	@Override
